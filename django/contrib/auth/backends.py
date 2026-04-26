@@ -3,7 +3,6 @@ from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.db.models import Exists, OuterRef, Q
-from django.views.decorators.debug import sensitive_variables
 
 UserModel = get_user_model()
 
@@ -57,7 +56,6 @@ class ModelBackend(BaseBackend):
     Authenticates against settings.AUTH_USER_MODEL.
     """
 
-    @sensitive_variables("password")
     def authenticate(self, request, username=None, password=None, **kwargs):
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)
@@ -73,7 +71,6 @@ class ModelBackend(BaseBackend):
             if user.check_password(password) and self.user_can_authenticate(user):
                 return user
 
-    @sensitive_variables("password")
     async def aauthenticate(self, request, username=None, password=None, **kwargs):
         if username is None:
             username = kwargs.get(UserModel.USERNAME_FIELD)

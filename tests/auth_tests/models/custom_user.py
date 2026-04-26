@@ -143,17 +143,3 @@ with RemoveGroupsAndPermissions():
         custom_objects = UserManager()
 
         REQUIRED_FIELDS = AbstractUser.REQUIRED_FIELDS + ["date_of_birth"]
-
-
-class ErrorUserManager(BaseUserManager):
-    def get_by_natural_key(self, _):
-        raise TypeError
-
-    async def aget_by_natural_key(self, _):
-        raise TypeError
-
-
-with RemoveGroupsAndPermissions():
-
-    class ErrorAdminUser(AbstractUser):
-        custom_objects = ErrorUserManager()
